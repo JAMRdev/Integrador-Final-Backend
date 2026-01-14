@@ -33,7 +33,10 @@ const CartModal = () => {
                                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                             </svg>
                             <p style={{ color: '#ccc', fontSize: '1.1rem' }}>Tu carrito está esperando ser llenado</p>
-                            <button className="btn-primary" onClick={handleClose}>Ir a la tienda</button>
+                            <button className="btn-primary" onClick={() => {
+                                handleClose();
+                                navigate('/products');
+                            }}>Ir a la tienda</button>
                         </div>
                     ) : (
                         cartItems.map((item) => {

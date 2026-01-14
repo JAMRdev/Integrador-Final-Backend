@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCart } from '../../redux/cart/cartSlice';
 import { logout } from '../../redux/user/userSlice';
@@ -8,6 +8,8 @@ import { clearToasts } from '../../redux/ui/uiSlice';
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const navigate = useNavigate();
     const cartItems = useSelector((state) => state.cart.cartItems);
     const { currentUser } = useSelector((state) => state.user);
     const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -15,10 +17,20 @@ const Navbar = () => {
 
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
-        setIsDropdownOpen(false); // Cerramos el otro por las dudas
+        setIsDropdownOpen(false);
     };
 
-    // Aca es donde armamos la parte de arriba
+    // Cerrar dropdown al hacer click afuera
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     return (
         <header className="header">
             <nav className="navbar container">
@@ -28,7 +40,6 @@ const Navbar = () => {
                     <li><NavLink to="/about" onClick={() => setIsMenuOpen(false)}>Nosotros</NavLink></li>
                     <li><NavLink to="/products" onClick={() => setIsMenuOpen(false)}>Productos</NavLink></li>
                     <li><NavLink to="/contact" onClick={() => setIsMenuOpen(false)}>Contacto</NavLink></li>
-                    {currentUser && <li><NavLink to="/my-orders" onClick={() => setIsMenuOpen(false)}>Mis Órdenes</NavLink></li>}
                     {currentUser && <li><NavLink to="/developers" onClick={() => setIsMenuOpen(false)}>Desarrolladores</NavLink></li>}
                 </ul>
                 <div className="header-actions">
@@ -45,7 +56,7 @@ const Navbar = () => {
                     </button>
 
                     {currentUser ? (
-                        <div className="user-dropdown-container">
+                        <div className="user-dropdown-container" ref={dropdownRef}>
                             <div
                                 className="user-name-wrapper"
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -60,11 +71,21 @@ const Navbar = () => {
                                 <div className="dropdown-menu">
                                     <button
                                         onClick={() => {
+                                            setIsDropdownOpen(false);
+                                            setIsMenuOpen(false);
+                                            navigate('/my-orders');
+                                        }}
+                                        className="dropdown-item"
+                                    >
+                                        Mis Órdenes
+                                    </button>
+                                    <button
+                                        onClick={() => {
                                             dispatch(logout());
                                             setIsMenuOpen(false);
                                             setIsDropdownOpen(false);
                                         }}
-                                        className="dropdown-item"
+                                        className="dropdown-item logout"
                                     >
                                         Cerrar Sesión
                                     </button>

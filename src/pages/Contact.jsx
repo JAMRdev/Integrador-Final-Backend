@@ -73,6 +73,7 @@ const Contact = () => {
 
                 dispatch(addToast({ id: Date.now(), msg: '¡Mensaje enviado con éxito!', type: 'success' }));
                 resetForm();
+                navigate('/contact', { replace: true });
             } catch (error) {
                 // Error
 

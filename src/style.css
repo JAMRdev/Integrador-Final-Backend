@@ -29,10 +29,12 @@ html {
 }
 
 body {
-  font-family: var(--principalFont);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--backgroundColor);
   color: var(--white);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
@@ -274,6 +276,11 @@ a {
 /* Sections General */
 .section-padding {
   padding: 80px 20px;
+}
+
+h1, h2, h3, .logo {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
 }
 
 h2 {
@@ -809,4 +816,78 @@ h2::after {
 .scroll-to-top .icon {
   stroke: var(--black);
   stroke-width: 3px;
+}
+
+/* User Dropdown */
+.user-dropdown-container {
+  position: relative;
+  z-index: 2000;
+}
+
+.user-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.user-name-wrapper:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background-color: var(--greyPrincipal);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  min-width: 180px;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--principalColor);
+}
+
+.dropdown-item.logout {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--secundaryColor);
+}
+
+.dropdown-item.logout:hover {
+  background-color: rgba(255, 77, 77, 0.05);
+  color: #ff4d4d;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
