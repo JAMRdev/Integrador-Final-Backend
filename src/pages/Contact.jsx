@@ -49,9 +49,12 @@ const Contact = () => {
                         templateId,
                         {
                             from_name: values.name,
-                            reply_to: values.email, // Usamos reply_to que es estandar en EmailJS
+                            from_email: values.email, // Incluimos ambos por si las dudas
+                            reply_to: values.email,
                             subject: values.subject,
                             message: values.message,
+                            // Algunos templates de EmailJS usan {{to_email}} o {{email}} para el destinatario
+                            to_email: values.email,
                         },
                         publicKey
                     );
