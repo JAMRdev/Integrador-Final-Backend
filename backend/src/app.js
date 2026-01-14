@@ -68,8 +68,12 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use(helmet({
     contentSecurityPolicy: false, // Lo apagamos aca porque lo vamos a manejar por ruta o dejarlo tranqui
 }));
+
+// Limpiamos la URL del front por si el usuario le puso una barra al final, que rompe el CORS
+const frontendUrl = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, "") : '*';
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: frontendUrl,
     credentials: true
 }));
 app.use(express.json());
