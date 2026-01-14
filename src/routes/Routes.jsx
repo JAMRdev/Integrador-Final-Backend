@@ -9,6 +9,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Contact from '../pages/Contact';
 import MyOrders from '../pages/MyOrders';
+import Developers from '../pages/Developers';
 import Layout from '../components/Layout/Layout';
 
 const RoutesComp = () => {
@@ -24,6 +25,7 @@ const RoutesComp = () => {
                 <Route path="register" element={<Register />} />
                 <Route path="contact" element={<Contact />} />
                 <Route path="my-orders" element={<MyOrders />} />
+                <Route path="developers" element={<Developers />} />
             </Route>
         </Routes>
     );

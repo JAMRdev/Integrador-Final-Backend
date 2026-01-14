@@ -27,13 +27,19 @@ const Navbar = () => {
                     <li><NavLink to="/products" onClick={() => setIsMenuOpen(false)}>Productos</NavLink></li>
                     <li><NavLink to="/contact" onClick={() => setIsMenuOpen(false)}>Contacto</NavLink></li>
                     {currentUser && <li><NavLink to="/my-orders" onClick={() => setIsMenuOpen(false)}>Mis Órdenes</NavLink></li>}
+                    {currentUser && <li><NavLink to="/developers" onClick={() => setIsMenuOpen(false)}>Desarrolladores</NavLink></li>}
                 </ul>
                 <div className="header-actions">
                     <button className="cart-icon" onClick={() => {
                         dispatch(clearToasts());
                         dispatch(toggleCart());
                     }}>
-                        🛒 <span id="cart-count">{totalQuantity}</span>
+                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span id="cart-count">{totalQuantity}</span>
                     </button>
 
                     {currentUser ? (
@@ -72,7 +78,11 @@ const Navbar = () => {
                     )}
 
                     <div className="menu-toggle" onClick={handleMenuToggle}>
-                        ☰
+                        <svg className="icon" style={{ width: '30px', height: '30px' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
                     </div>
                 </div>
             </nav>

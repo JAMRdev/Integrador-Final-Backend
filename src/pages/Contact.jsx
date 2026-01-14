@@ -33,21 +33,25 @@ const Contact = () => {
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
             try {
-                // 1. Mandamos la data al back para guardarla en la DB
+                // Guardamos el contacto en la base de datos
                 await contactService.submit(values);
 
-                // 2. Mandamos el mail de verdad con EmailJS
-                // Sacamos las keys de las env vars (VITE_...)
+                // Mandamos el aviso por mail con EmailJS
+                // Keys para EmailJS
                 const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
                 const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
                 const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
                 console.log('Intentando enviar email con:', { serviceId, templateId, publicKey: publicKey ? 'PRESENTE' : 'FALTA' });
 
-                // Si faltan las llaves, avisamos por consola pero seguimos
+                // Si no hay llaves avisamos, pero ya se guardó en la DB
                 if (!serviceId || !templateId || !publicKey) {
-                    console.warn('⚠️ Faltan variables de entorno de EmailJS. El mensaje se guardó en la DB pero no se envió el mail.');
-                    dispatch(addToast({ id: Date.now(), msg: 'Mensaje guardado, pero falló el envío de correo (Faltan llaves).', type: 'warning' }));
+                    console.warn('Faltan variables de entorno de EmailJS. El mensaje se guardó en la DB pero no se envió el mail.');
+                    dispatch(addToast({
+                        id: Date.now(),
+                        msg: 'Mensaje guardado, pero falló el envío de correo (Faltan llaves).',
+                        type: 'warning'
+                    }));
                 } else {
                     const result = await emailjs.send(
                         serviceId,

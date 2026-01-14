@@ -66,11 +66,11 @@ const seedProducts = async () => {
     try {
         await connectDB();
 
-        // Clear existing products
+        // Borramos lo que haya para no duplicar
         await Product.deleteMany({});
         console.log('🗑️  Productos existentes eliminados');
 
-        // Insert new products
+        // Metemos los productos nuevos
         await Product.insertMany(products);
         console.log('✅ Productos insertados correctamente');
 

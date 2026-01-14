@@ -35,6 +35,25 @@ body {
   line-height: 1.6;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  animation: pageFadeIn 0.5s ease-out;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
+}
+
 img {
   max-width: 100%;
   display: block;
@@ -611,10 +630,6 @@ h2::after {
 
 
 /* Page Transitions */
-main {
-  animation: pageFadeIn 0.5s ease-out;
-}
-
 @keyframes pageFadeIn {
   from {
     opacity: 0;

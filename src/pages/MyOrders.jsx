@@ -85,9 +85,15 @@ const MyOrders = () => {
                                         color: 'var(--principalColor)',
                                         fontSize: '0.8rem',
                                         fontWeight: 'bold',
-                                        border: '1px solid rgba(153, 254, 84, 0.3)'
+                                        border: '1px solid rgba(153, 254, 84, 0.3)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '5px'
                                     }}>
-                                        ✓ RECIBIDO
+                                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ width: '14px', height: '14px' }}>
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                        RECIBIDO
                                     </span>
                                     <button
                                         onClick={() => navigate(`/contact?orderId=${order._id.slice(-6).toUpperCase()}`)}
@@ -120,7 +126,11 @@ const MyOrders = () => {
                                     }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                                             <div style={{ width: '40px', height: '40px', background: 'var(--principalColor)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: 'var(--black)' }}>
-                                                📦
+                                                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M21 8.5V16c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V8.5"></path>
+                                                    <path d="M3 8.5c0-1.2.8-2.2 2-2.5l7-3 7 3c1.2.3 2 1.3 2 2.5"></path>
+                                                    <path d="M12 22v-9"></path>
+                                                </svg>
                                             </div>
                                             <div>
                                                 <p style={{ margin: 0, fontWeight: '600', color: 'var(--white)' }}>{item.name}</p>
