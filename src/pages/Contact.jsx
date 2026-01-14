@@ -42,11 +42,10 @@ const Contact = () => {
                 const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
                 const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-                console.log('Intentando enviar email con:', { serviceId, templateId, publicKey: publicKey ? 'PRESENTE' : 'FALTA' });
+
 
                 // Si no hay llaves avisamos, pero ya se guardó en la DB
                 if (!serviceId || !templateId || !publicKey) {
-                    console.warn('Faltan variables de entorno de EmailJS. El mensaje se guardó en la DB pero no se envió el mail.');
                     dispatch(addToast({
                         id: Date.now(),
                         msg: 'Mensaje guardado, pero falló el envío de correo (Faltan llaves).',
@@ -68,13 +67,15 @@ const Contact = () => {
                         },
                         publicKey
                     );
-                    console.log('EmailJS SUCCESS!', result.status, result.text);
+                    // Éxito
+
                 }
 
                 dispatch(addToast({ id: Date.now(), msg: '¡Mensaje enviado con éxito!', type: 'success' }));
                 resetForm();
             } catch (error) {
-                console.error('Error al enviar el formulario:', error);
+                // Error
+
                 dispatch(addToast({ id: Date.now(), msg: 'Error al enviar. Intenta nuevamente.', type: 'error' }));
             } finally {
                 setLoading(false);
@@ -143,8 +144,8 @@ const Contact = () => {
                         <small className="error-msg" style={{ display: 'block' }}>{formik.errors.message}</small>
                     ) : null}
                 </div>
-                <button type="submit" className="btn-primary" disabled={loading}>
-                    {loading ? 'Enviando...' : 'Enviar'}
+                <button type="submit" className="btn-primary" disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto', gap: '8px' }}>
+                    {loading ? <><span className="spinner"></span> Enviando...</> : 'Enviar'}
                 </button>
             </form>
         </section>

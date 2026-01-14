@@ -76,8 +76,8 @@ const Register = () => {
                             style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', background: 'white', color: 'black' }}
                         />
                     </div>
-                    <button type="submit" className="btn-primary" style={{ width: '100%' }} disabled={loading}>
-                        {loading ? 'Cargando...' : 'Registrarse'}
+                    <button type="submit" className="btn-primary" style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} disabled={loading}>
+                        {loading ? <><span className="spinner"></span> Registrando...</> : 'Registrarse'}
                     </button>
                 </form>
                 <p style={{ marginTop: '20px', textAlign: 'center' }}>

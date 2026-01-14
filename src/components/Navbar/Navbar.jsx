@@ -7,6 +7,7 @@ import { clearToasts } from '../../redux/ui/uiSlice';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const cartItems = useSelector((state) => state.cart.cartItems);
     const { currentUser } = useSelector((state) => state.user);
     const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -14,6 +15,7 @@ const Navbar = () => {
 
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
+        setIsDropdownOpen(false); // Cerramos el otro por las dudas
     };
 
     // Aca es donde armamos la parte de arriba
@@ -34,7 +36,7 @@ const Navbar = () => {
                         dispatch(clearToasts());
                         dispatch(toggleCart());
                     }}>
-                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="icon" viewBox="0 0 24 24" style={{ width: '24px', height: '24px' }}>
                             <circle cx="9" cy="21" r="1"></circle>
                             <circle cx="20" cy="21" r="1"></circle>
                             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
@@ -43,21 +45,31 @@ const Navbar = () => {
                     </button>
 
                     {currentUser ? (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <span style={{ color: 'var(--white)', fontSize: '0.9rem' }}>Hola, {currentUser.name}</span>
-                            <button
-                                onClick={() => { dispatch(logout()); setIsMenuOpen(false) }}
-                                style={{
-                                    backgroundColor: 'var(--white)',
-                                    color: 'var(--black)',
-                                    padding: '5px 10px',
-                                    borderRadius: '5px',
-                                    fontWeight: 'bold',
-                                    fontSize: '0.9rem'
-                                }}
+                        <div className="user-dropdown-container">
+                            <div
+                                className="user-name-wrapper"
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             >
-                                Salir
-                            </button>
+                                <span>Hola, {currentUser.name}</span>
+                                <svg className={`icon dropdown-arrow ${isDropdownOpen ? 'open' : ''}`} viewBox="0 0 24 24" style={{ width: '12px', opacity: 0.7 }}>
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+
+                            {isDropdownOpen && (
+                                <div className="dropdown-menu">
+                                    <button
+                                        onClick={() => {
+                                            dispatch(logout());
+                                            setIsMenuOpen(false);
+                                            setIsDropdownOpen(false);
+                                        }}
+                                        className="dropdown-item"
+                                    >
+                                        Cerrar Sesión
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <Link
@@ -78,7 +90,7 @@ const Navbar = () => {
                     )}
 
                     <div className="menu-toggle" onClick={handleMenuToggle}>
-                        <svg className="icon" style={{ width: '30px', height: '30px' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="icon" viewBox="0 0 24 24" style={{ width: '28px', height: '28px' }}>
                             <line x1="3" y1="12" x2="21" y2="12"></line>
                             <line x1="3" y1="6" x2="21" y2="6"></line>
                             <line x1="3" y1="18" x2="21" y2="18"></line>

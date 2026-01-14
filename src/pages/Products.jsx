@@ -30,7 +30,11 @@ const Products = () => {
                 ))}
             </div>
             {loading ? (
-                <p style={{ textAlign: 'center' }}>Cargando productos...</p>
+                <div className="products-grid">
+                    {[1, 2, 3, 4, 5, 6].map(i => (
+                        <div key={i} className="skeleton skeleton-card"></div>
+                    ))}
+                </div>
             ) : products.length === 0 ? (
                 <p style={{ textAlign: 'center' }}>No hay productos en esta categoría.</p>
             ) : (

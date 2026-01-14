@@ -3,17 +3,7 @@ import React from 'react';
 const Developers = () => {
     return (
         <section className="container section-padding" style={{ paddingTop: '120px', minHeight: '80vh' }}>
-            <h2 style={{
-                marginBottom: '40px',
-                fontSize: '2.5rem',
-                fontWeight: '800',
-                background: 'linear-gradient(90deg, var(--white), var(--principalColor))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                display: 'inline-block'
-            }}>
-                Para Desarrolladores
-            </h2>
+            <h2>Para Desarrolladores</h2>
 
             <div style={{
                 display: 'grid',
@@ -32,7 +22,7 @@ const Developers = () => {
                     transition: 'transform 0.3s ease'
                 }}>
                     <h3 style={{ color: 'var(--principalColor)', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="icon" viewBox="0 0 24 24" style={{ width: '1.4em', height: '1.4em' }}>
                             <path d="M21 8.5V16c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V8.5"></path>
                             <path d="M3 8.5c0-1.2.8-2.2 2-2.5l7-3 7 3c1.2.3 2 1.3 2 2.5"></path>
                             <path d="M12 22v-9"></path>
@@ -63,7 +53,7 @@ const Developers = () => {
                     boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
                 }}>
                     <h3 style={{ color: 'var(--principalColor)', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="icon" viewBox="0 0 24 24" style={{ width: '1.4em', height: '1.4em' }}>
                             <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
                             <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
                             <path d="M9 12H4s.55-3.03 2-5c1.1-1.54 3.05-1.48 4.14-.39"></path>
@@ -106,7 +96,7 @@ const Developers = () => {
                     boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
                 }}>
                     <h3 style={{ color: 'var(--principalColor)', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="icon" viewBox="0 0 24 24" style={{ width: '1.4em', height: '1.4em' }}>
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                         </svg>

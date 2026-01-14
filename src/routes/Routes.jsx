@@ -11,6 +11,7 @@ import Contact from '../pages/Contact';
 import MyOrders from '../pages/MyOrders';
 import Developers from '../pages/Developers';
 import Layout from '../components/Layout/Layout';
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 
 const RoutesComp = () => {
     return (
@@ -20,12 +21,18 @@ const RoutesComp = () => {
                 <Route path="about" element={<About />} />
                 <Route path="products" element={<Products />} />
                 <Route path="product/:id" element={<ProductDetail />} />
-                <Route path="checkout" element={<Checkout />} />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
                 <Route path="contact" element={<Contact />} />
-                <Route path="my-orders" element={<MyOrders />} />
-                <Route path="developers" element={<Developers />} />
+
+                {/* Rutas protegidas */}
+                <Route element={<ProtectedRoute />}>
+                    <Route path="checkout" element={<Checkout />} />
+                    <Route path="my-orders" element={<MyOrders />} />
+                    <Route path="developers" element={<Developers />} />
+                </Route>
+
+                <Route path="*" element={<Home />} />
             </Route>
         </Routes>
     );

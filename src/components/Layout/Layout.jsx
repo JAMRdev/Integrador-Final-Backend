@@ -6,6 +6,7 @@ import CartModal from '../UI/CartModal';
 import ToastList from '../UI/ToastList';
 import ConfirmModal from '../UI/ConfirmModal';
 import InfoModal from '../UI/InfoModal';
+import ScrollToTop from '../UI/ScrollToTop';
 
 const Layout = () => {
     const location = useLocation();
@@ -20,6 +21,7 @@ const Layout = () => {
             <main key={location.pathname}>
                 <Outlet />
             </main>
+            <ScrollToTop />
             <Footer />
         </>
     );

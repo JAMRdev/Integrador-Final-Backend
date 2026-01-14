@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMyOrders } from '../redux/orders/ordersSlice';
 import { useNavigate } from 'react-router-dom';
+import { formatPrice } from '../utils/formatCurrency';
 
 const MyOrders = () => {
     const dispatch = useDispatch();
@@ -10,12 +11,10 @@ const MyOrders = () => {
     const { currentUser } = useSelector(state => state.user);
 
     useEffect(() => {
-        if (!currentUser) {
-            navigate('/login');
-        } else {
+        if (currentUser) {
             dispatch(fetchMyOrders());
         }
-    }, [dispatch, currentUser, navigate]);
+    }, [dispatch, currentUser]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -25,29 +24,29 @@ const MyOrders = () => {
     if (loading && orders.length === 0) {
         return (
             <section className="container section-padding" style={{ paddingTop: '120px', minHeight: '80vh', textAlign: 'center' }}>
-                <h2>Cargando tus órdenes...</h2>
+                <h2>Tus Órdenes</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', maxWidth: '900px', margin: '0 auto' }}>
+                    {[1, 2, 3].map(i => (
+                        <div key={i} className="skeleton skeleton-order"></div>
+                    ))}
+                </div>
             </section>
         );
     }
 
     return (
         <section className="container section-padding" style={{ paddingTop: '120px', minHeight: '80vh', textAlign: 'center' }}>
-            <h2 style={{
-                marginBottom: '40px',
-                fontSize: '2.5rem',
-                fontWeight: '800',
-                background: 'linear-gradient(90deg, var(--white), var(--principalColor))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                display: 'inline-block'
-            }}>
-                Mis Órdenes
-            </h2>
+            <h2>Mis Órdenes</h2>
             {error && <p style={{ color: '#ff4d4d', textAlign: 'center', marginBottom: '20px' }}>{error}</p>}
 
             {orders.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '60px', background: 'rgba(30, 30, 30, 0.6)', borderRadius: '20px', border: '1px dashed rgba(255, 255, 255, 0.1)' }}>
-                    <p style={{ fontSize: '1.2rem', marginBottom: '20px' }}>Aún no tienes pedidos registrados.</p>
+                <div style={{ padding: '80px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', background: 'rgba(30, 30, 30, 0.6)', borderRadius: '20px', border: '1px dashed rgba(255, 255, 255, 0.1)' }}>
+                    <svg className="icon" viewBox="0 0 24 24" style={{ width: '100px', height: '100px', opacity: 0.2 }}>
+                        <path d="M21 8.5V16c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V8.5"></path>
+                        <path d="M3 8.5c0-1.2.8-2.2 2-2.5l7-3 7 3c1.2.3 2 1.3 2 2.5"></path>
+                        <path d="M12 22v-9"></path>
+                    </svg>
+                    <p style={{ fontSize: '1.2rem', color: '#ccc' }}>Todavía no has realizado ninguna orden</p>
                     <button className="btn-primary" onClick={() => navigate('/products')}>Empezar a comprar</button>
                 </div>
             ) : (
@@ -90,7 +89,7 @@ const MyOrders = () => {
                                         alignItems: 'center',
                                         gap: '5px'
                                     }}>
-                                        <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ width: '14px', height: '14px' }}>
+                                        <svg className="icon" viewBox="0 0 24 24" style={{ width: '1.2em', height: '1.2em', strokeWidth: '3.5px' }}>
                                             <polyline points="20 6 9 17 4 12"></polyline>
                                         </svg>
                                         RECIBIDO
@@ -137,7 +136,7 @@ const MyOrders = () => {
                                                 <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--principalColorVariation2)' }}>Cantidad: {item.quantity}</p>
                                             </div>
                                         </div>
-                                        <span style={{ fontWeight: 'bold', color: 'var(--white)' }}>${(item.price * item.quantity).toLocaleString()}</span>
+                                        <span style={{ fontWeight: 'bold', color: 'var(--white)' }}>{formatPrice(item.price * item.quantity)}</span>
                                     </div>
                                 ))}
                             </div>
@@ -151,12 +150,12 @@ const MyOrders = () => {
                                 borderRadius: '15px'
                             }}>
                                 <div style={{ fontSize: '0.9rem', color: 'var(--principalColorVariation2)' }}>
-                                    Envío: ${order.shippingPrice || 0}
+                                    Envío: {formatPrice(order.shippingPrice || 0)}
                                 </div>
                                 <div style={{ textAlign: 'right' }}>
                                     <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--principalColorVariation2)' }}>Total Pagado</span>
                                     <span style={{ fontSize: '1.6rem', fontWeight: '800', color: 'var(--principalColor)' }}>
-                                        ${order.totalAmount.toLocaleString()}
+                                        {formatPrice(order.totalAmount)}
                                     </span>
                                 </div>
                             </div>

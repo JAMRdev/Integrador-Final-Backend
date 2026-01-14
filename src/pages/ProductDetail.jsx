@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cart/cartSlice';
 import { addToast } from '../redux/ui/uiSlice';
 import { productsService } from '../services';
+import { formatPrice } from '../utils/formatCurrency';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -17,7 +18,7 @@ const ProductDetail = () => {
                 const data = await productsService.getById(id);
                 setProduct(data);
             } catch (error) {
-                console.error("Error fetching product:", error);
+                // silenciamos el error por ahora
             } finally {
                 setLoading(false);
             }
@@ -45,7 +46,7 @@ const ProductDetail = () => {
                     <Link to="/products" style={{ color: 'var(--primary-color)', marginBottom: '20px', display: 'inline-block' }}>← Volver</Link>
                     <small style={{ display: 'block', color: 'var(--primary-color)', textTransform: 'uppercase', letterSpacing: '2px' }}>{product.category}</small>
                     <h2 style={{ fontSize: '2.5rem', margin: '10px 0' }}>{product.name}</h2>
-                    <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary-color)', marginBottom: '20px' }}>${product.price}</p>
+                    <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary-color)', marginBottom: '20px' }}>{formatPrice(product.price)}</p>
                     <p style={{ marginBottom: '30px', color: '#ccc', lineHeight: '1.6' }}>{product.description || 'Descripción detallada del producto...'}</p>
                     <button className="btn-primary" onClick={handleAddToCart} style={{ padding: '15px 40px' }}>Añadir al Carrito</button>
                 </div>

@@ -6,6 +6,7 @@ import { clearCart } from '../redux/cart/cartSlice';
 import { addToast, openModal, openInfoModal } from '../redux/ui/uiSlice';
 import { useNavigate } from 'react-router-dom';
 import { ordersService } from '../services';
+import { formatPrice } from '../utils/formatCurrency';
 
 const Checkout = () => {
     const dispatch = useDispatch();
@@ -75,7 +76,8 @@ const Checkout = () => {
                     redirectTo: null // Ya navegamos, así que no hace falta redirectTo aquí
                 }));
             } catch (error) {
-                console.error('Order Error:', error);
+                // Order Error
+
                 dispatch(addToast({ id: Date.now(), msg: error.message || 'Error al procesar el pedido', type: 'error' }));
             } finally {
                 setLoading(false);
@@ -96,31 +98,29 @@ const Checkout = () => {
         <section className="container section-padding" style={{ paddingTop: '120px', minHeight: '80vh', textAlign: 'center' }}>
             <h2>Finalizar Compra</h2>
             <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '40px' }}>
-                {/* Resumen de lo que esta comprando */}
                 <div style={{ flex: '1', minWidth: '300px', backgroundColor: 'var(--bg-secondary)', padding: '30px', borderRadius: '15px', height: 'fit-content', border: '1px solid var(--primary-color)' }}>
                     <h3 style={{ marginBottom: '20px', borderBottom: '1px solid var(--primary-color)', paddingBottom: '10px' }}>Resumen del Pedido</h3>
                     {cartItems.map(item => (
                         <div key={item.id || item._id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
                             <span>{item.name} (x{item.quantity})</span>
-                            <span style={{ color: 'var(--primary-color)' }}>${item.price * item.quantity}</span>
+                            <span style={{ color: 'var(--primary-color)' }}>{formatPrice(item.price * item.quantity)}</span>
                         </div>
                     ))}
                     <div style={{ margin: '20px 0', borderTop: '1px solid #444', paddingTop: '15px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                             <span>Subtotal:</span>
-                            <span>${subtotal}</span>
+                            <span>{formatPrice(subtotal)}</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                             <span>Envío:</span>
-                            <span>${currentShippingCost}</span>
+                            <span>{formatPrice(currentShippingCost)}</span>
                         </div>
                     </div>
                     <div style={{ marginTop: '20px', fontSize: '1.4rem', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between' }}>
-                        Total: <span style={{ color: 'var(--primary-color)' }}>${total}</span>
+                        Total: <span style={{ color: 'var(--primary-color)' }}>{formatPrice(total)}</span>
                     </div>
                 </div>
 
-                {/* El form para que ponga donde vive */}
                 <div style={{ flex: '1.5', minWidth: '300px' }}>
                     <form onSubmit={formik.handleSubmit} className="contact-form" style={{ maxWidth: '100%', margin: '0', textAlign: 'left' }}>
                         <h3 style={{ marginBottom: '20px' }}>Datos de Envío</h3>
@@ -191,8 +191,8 @@ const Checkout = () => {
                                 {formik.touched.zip && formik.errors.zip && <small className="error-msg">{formik.errors.zip}</small>}
                             </div>
                         </div>
-                        <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '20px' }} disabled={loading}>
-                            {loading ? 'Procesando...' : 'Finalizar Pedido'}
+                        <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} disabled={loading}>
+                            {loading ? <><span className="spinner"></span> Procesando...</> : 'Finalizar Pedido'}
                         </button>
                     </form>
                 </div>
