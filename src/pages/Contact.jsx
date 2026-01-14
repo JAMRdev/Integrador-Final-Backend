@@ -28,13 +28,37 @@ const Contact = () => {
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
             try {
-                // Mandamos la data al back
+                // 1. Mandamos la data al back para guardarla en la DB
                 await contactService.submit(values);
+
+                // 2. Mandamos el mail de verdad con EmailJS
+                // Sacamos las keys de las env vars (VITE_...)
+                const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+                const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+                const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+                // Si faltan las llaves, avisamos por consola pero seguimos
+                if (!serviceId || !templateId || !publicKey) {
+                    console.warn('⚠️ Faltan variables de entorno de EmailJS. El mensaje se guardó en la DB pero no se envió el mail.');
+                } else {
+                    await emailjs.send(
+                        serviceId,
+                        templateId,
+                        {
+                            from_name: values.name,
+                            from_email: values.email,
+                            subject: values.subject,
+                            message: values.message,
+                        },
+                        publicKey
+                    );
+                }
+
                 dispatch(addToast({ id: Date.now(), msg: '¡Mensaje enviado con éxito!', type: 'success' }));
                 resetForm();
             } catch (error) {
-                console.error('FAILED...', error);
-                dispatch(addToast({ id: Date.now(), msg: error.message || 'Error al enviar. Intenta nuevamente.', type: 'error' }));
+                console.error('Error al enviar el formulario:', error);
+                dispatch(addToast({ id: Date.now(), msg: 'Error al enviar. Intenta nuevamente.', type: 'error' }));
             } finally {
                 setLoading(false);
             }
