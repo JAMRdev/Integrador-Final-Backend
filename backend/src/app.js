@@ -38,7 +38,7 @@ const swaggerOptions = {
         servers: [
             {
                 url: process.env.NODE_ENV === 'production'
-                    ? 'https://your-backend-url.vercel.app'
+                    ? `https://${process.env.VERCEL_URL || 'integrador-final-backend.vercel.app'}`
                     : `http://localhost:${process.env.PORT || 5000}`,
                 description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Development server'
             }
@@ -75,10 +75,19 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
+// Swagger CDN configuration for Vercel
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css";
+const JS_URLS = [
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js"
+];
+
 // API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
     customCss: '.swagger-ui .topbar { display: none }',
-    customSiteTitle: 'JAMR Store API Docs'
+    customSiteTitle: 'JAMR Store API Docs',
+    customCssUrl: CSS_URL,
+    customJs: JS_URLS
 }));
 
 // Las rutas de verdad
@@ -102,9 +111,12 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
-});
+// Solo escuchamos en local, Vercel se encarga de lo suyo
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server running on port ${PORT}`);
+        console.log(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
+    });
+}
 
 export default app;
