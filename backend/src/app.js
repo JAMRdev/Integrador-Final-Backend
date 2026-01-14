@@ -5,8 +5,14 @@ import rateLimit from 'express-rate-limit';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import connectDB from './config/database.js';
 import errorHandler from './middleware/errorHandler.js';
+
+// Esto es para que los paths no se rompan en vercel
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Import routes
 import authRoutes from './routes/auth.routes.js';
@@ -53,7 +59,7 @@ const swaggerOptions = {
             }
         }
     },
-    apis: ['./src/routes/*.js']
+    apis: [path.join(__dirname, './routes/*.js')] // Ahora es absoluto
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
@@ -86,8 +92,15 @@ const JS_URLS = [
 
 // API Documentation - Con parche para Vercel
 app.use('/api-docs', (req, res, next) => {
-    // Forzamos el CSP para que deje cargar el swagger
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; img-src 'self' data: res.cloudinary.com; font-src 'self' fonts.gstatic.com;");
+    // Forzamos el CSP para que deje cargar el swagger y sus cositas de CDN
+    res.setHeader('Content-Security-Policy',
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; " +
+        "style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; " +
+        "img-src 'self' data: res.cloudinary.com; " +
+        "font-src 'self' fonts.gstatic.com; " +
+        "connect-src 'self' cdnjs.cloudflare.com;"
+    );
     next();
 }, swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
     customCss: '.swagger-ui .topbar { display: none }',
