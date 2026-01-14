@@ -60,17 +60,7 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 // Cosas de express que no entiendo bien pero tiene que estar
 app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com"],
-            styleSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com", "fonts.googleapis.com"],
-            imgSrc: ["'self'", "data:", "res.cloudinary.com"],
-            fontSrc: ["'self'", "fonts.gstatic.com"],
-            objectSrc: ["'none'"],
-            upgradeInsecureRequests: [],
-        },
-    },
+    contentSecurityPolicy: false, // Lo apagamos aca porque lo vamos a manejar por ruta o dejarlo tranqui
 }));
 app.use(cors({
     origin: process.env.FRONTEND_URL || '*',
@@ -94,8 +84,12 @@ const JS_URLS = [
     "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js"
 ];
 
-// API Documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
+// API Documentation - Con parche para Vercel
+app.use('/api-docs', (req, res, next) => {
+    // Forzamos el CSP para que deje cargar el swagger
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com; img-src 'self' data: res.cloudinary.com; font-src 'self' fonts.gstatic.com;");
+    next();
+}, swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
     customCss: '.swagger-ui .topbar { display: none }',
     customSiteTitle: 'JAMR Store API Docs',
     customCssUrl: CSS_URL,
