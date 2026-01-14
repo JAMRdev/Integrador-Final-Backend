@@ -77,7 +77,7 @@ const MyOrders = () => {
                                     </span>
                                     <h3 style={{ margin: 0, fontSize: '1.1rem', color: 'var(--white)' }}>{formatDate(order.createdAt)}</h3>
                                 </div>
-                                <div style={{ display: 'flex', gap: '10px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px' }}>
                                     <span style={{
                                         padding: '6px 14px',
                                         borderRadius: '50px',
@@ -89,6 +89,22 @@ const MyOrders = () => {
                                     }}>
                                         ✓ RECIBIDO
                                     </span>
+                                    <button
+                                        onClick={() => navigate(`/contact?orderId=${order._id.slice(-6).toUpperCase()}`)}
+                                        style={{
+                                            background: 'none',
+                                            border: 'none',
+                                            color: 'var(--white)',
+                                            fontSize: '0.75rem',
+                                            textDecoration: 'underline',
+                                            cursor: 'pointer',
+                                            opacity: 0.8
+                                        }}
+                                        onMouseOver={(e) => e.target.style.opacity = 1}
+                                        onMouseOut={(e) => e.target.style.opacity = 0.8}
+                                    >
+                                        Contactar Soporte
+                                    </button>
                                 </div>
                             </div>
 

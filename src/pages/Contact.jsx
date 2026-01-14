@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import emailjs from '@emailjs/browser';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { addToast } from '../redux/ui/uiSlice';
 
 import { contactService } from '../services';
@@ -11,14 +12,18 @@ const Contact = () => {
     const form = useRef();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+    const [searchParams] = useSearchParams();
+    const orderId = searchParams.get('orderId');
+    const { currentUser } = useSelector(state => state.user);
 
     const formik = useFormik({
         initialValues: {
-            name: '',
-            email: '',
-            subject: '',
-            message: '',
+            name: currentUser?.name || '',
+            email: currentUser?.email || '',
+            subject: orderId ? `Consulta sobre Orden #${orderId}` : '',
+            message: orderId ? `Me contacto por la orden #${orderId}: ` : '',
         },
+        enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string().required('Requerido'),
             email: Yup.string().email('Email inválido').required('Requerido'),

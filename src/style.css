@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --greyPrincipal: #262626;
   --greySecundary: rgb(77, 77, 77);
@@ -40,6 +44,11 @@ button {
   cursor: pointer;
   border: none;
   font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+a {
+  transition: all 0.3s ease;
 }
 
 .container {
@@ -601,3 +610,18 @@ h2::after {
 
 
 
+/* Page Transitions */
+main {
+  animation: pageFadeIn 0.5s ease-out;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, resetError } from '../redux/user/userSlice';
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const redirectPath = searchParams.get('redirect') || '';
     const { currentUser, loading, error } = useSelector(state => state.user);
 
     const [formData, setFormData] = useState({
@@ -18,11 +20,15 @@ const Login = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        // Si ya entro lo mandamos al inicio
+        // Si ya entro lo mandamos al path de redirección o al inicio
         if (currentUser) {
-            navigate('/');
+            if (redirectPath === 'checkout') {
+                navigate('/checkout');
+            } else {
+                navigate('/');
+            }
         }
-    }, [currentUser, navigate]);
+    }, [currentUser, navigate, redirectPath]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

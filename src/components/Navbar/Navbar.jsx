@@ -3,6 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCart } from '../../redux/cart/cartSlice';
 import { logout } from '../../redux/user/userSlice';
+import { clearToasts } from '../../redux/ui/uiSlice';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +29,10 @@ const Navbar = () => {
                     {currentUser && <li><NavLink to="/my-orders" onClick={() => setIsMenuOpen(false)}>Mis Órdenes</NavLink></li>}
                 </ul>
                 <div className="header-actions">
-                    <button className="cart-icon" onClick={() => dispatch(toggleCart())}>
+                    <button className="cart-icon" onClick={() => {
+                        dispatch(clearToasts());
+                        dispatch(toggleCart());
+                    }}>
                         🛒 <span id="cart-count">{totalQuantity}</span>
                     </button>
 

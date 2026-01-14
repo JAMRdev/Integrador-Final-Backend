@@ -6,6 +6,7 @@ import { openModal, addToast } from '../../redux/ui/uiSlice';
 
 const CartModal = () => {
     const { cartItems, isCartOpen } = useSelector((state) => state.cart);
+    const { currentUser } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -55,11 +56,28 @@ const CartModal = () => {
                     )}
                 </div>
                 <div className="cart-footer">
+                    {cartItems.length > 0 && !currentUser && (
+                        <p className="auth-disclaimer" style={{
+                            fontSize: '0.85rem',
+                            color: 'var(--secundaryColor)',
+                            marginBottom: '10px',
+                            textAlign: 'center',
+                            padding: '5px',
+                            border: '1px dashed var(--secundaryColor)',
+                            borderRadius: '5px'
+                        }}>
+                            ⚠️ Debes iniciar sesión o registrarte para completar tu compra.
+                        </p>
+                    )}
                     <p>Total: <span>${totalPrice}</span></p>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <button className="btn-primary" onClick={() => {
                             dispatch(toggleCart());
-                            navigate('/checkout');
+                            if (!currentUser) {
+                                navigate('/login?redirect=checkout');
+                            } else {
+                                navigate('/checkout');
+                            }
                         }}>Comprar</button>
                         <button className="btn-cancel" onClick={() => {
                             dispatch(openModal({

@@ -26,6 +26,9 @@ const uiSlice = createSlice({
         removeToast: (state, action) => {
             state.toasts = state.toasts.filter(toast => toast.id !== action.payload);
         },
+        clearToasts: (state) => {
+            state.toasts = [];
+        },
         openModal: (state, action) => {
             state.modal = {
                 isOpen: true,
@@ -51,5 +54,5 @@ const uiSlice = createSlice({
     },
 });
 
-export const { addToast, removeToast, openModal, closeModal, openInfoModal, closeInfoModal } = uiSlice.actions;
+export const { addToast, removeToast, clearToasts, openModal, closeModal, openInfoModal, closeInfoModal } = uiSlice.actions;
 export default uiSlice.reducer;
