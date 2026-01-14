@@ -54,6 +54,8 @@ const Contact = () => {
                             subject: values.subject,
                             message: values.message,
                             // Algunos templates de EmailJS usan {{to_email}} o {{email}} para el destinatario
+                            // Tu template específicamente usa {{email}} según vimos en el dashboard
+                            email: values.email,
                             to_email: values.email,
                         },
                         publicKey
