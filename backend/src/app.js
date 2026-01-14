@@ -59,7 +59,19 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 // Cosas de express que no entiendo bien pero tiene que estar
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com"],
+            styleSrc: ["'self'", "'unsafe-inline'", "cdnjs.cloudflare.com", "fonts.googleapis.com"],
+            imgSrc: ["'self'", "data:", "res.cloudinary.com"],
+            fontSrc: ["'self'", "fonts.gstatic.com"],
+            objectSrc: ["'none'"],
+            upgradeInsecureRequests: [],
+        },
+    },
+}));
 app.use(cors({
     origin: process.env.FRONTEND_URL || '*',
     credentials: true
