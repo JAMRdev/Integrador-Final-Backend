@@ -11,7 +11,7 @@ const products = [
         name: "Auriculares Gamer",
         price: 5000,
         category: "audio",
-        image: "/img/headphones.png",
+        image: "/img/headphones.webp",
         description: "Sonido envolvente 7.1",
         stock: 100
     },
@@ -20,7 +20,7 @@ const products = [
         name: "Teclado Mecánico",
         price: 8500,
         category: "gaming",
-        image: "/img/keyboard.png",
+        image: "/img/keyboard.webp",
         description: "Switches Cherry MX Blue",
         stock: 100
     },
@@ -29,7 +29,7 @@ const products = [
         name: "Monitor 24'",
         price: 25000,
         category: "tech",
-        image: "/img/monitor.png",
+        image: "/img/monitor.webp",
         description: "Full HD 144hz",
         stock: 100
     },
@@ -38,7 +38,7 @@ const products = [
         name: "Mouse Gamer",
         price: 3500,
         category: "gaming",
-        image: "/img/mouse.png",
+        image: "/img/mouse.webp",
         description: "RGB y sensor óptico",
         stock: 100
     },
@@ -47,7 +47,7 @@ const products = [
         name: "Parlante Bluetooth",
         price: 4000,
         category: "audio",
-        image: "/img/speaker.png",
+        image: "/img/speaker.webp",
         description: "Batería de larga duración",
         stock: 100
     },
@@ -56,7 +56,7 @@ const products = [
         name: "Notebook Pro",
         price: 150000,
         category: "tech",
-        image: "/img/laptop.png",
+        image: "/img/laptop.webp",
         description: "Intel i7, 16GB RAM",
         stock: 100
     }
