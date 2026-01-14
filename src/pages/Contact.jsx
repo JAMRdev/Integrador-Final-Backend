@@ -48,15 +48,14 @@ const Contact = () => {
                         serviceId,
                         templateId,
                         {
+                            name: values.name,      // Para {{name}}
+                            title: values.subject,   // Para {{title}}
+                            email: values.email,     // Para {{email}} (destinatario)
                             from_name: values.name,
-                            from_email: values.email, // Incluimos ambos por si las dudas
+                            from_email: values.email,
                             reply_to: values.email,
                             subject: values.subject,
                             message: values.message,
-                            // Algunos templates de EmailJS usan {{to_email}} o {{email}} para el destinatario
-                            // Tu template específicamente usa {{email}} según vimos en el dashboard
-                            email: values.email,
-                            to_email: values.email,
                         },
                         publicKey
                     );
