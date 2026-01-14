@@ -37,21 +37,25 @@ const Contact = () => {
                 const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
                 const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+                console.log('Intentando enviar email con:', { serviceId, templateId, publicKey: publicKey ? 'PRESENTE' : 'FALTA' });
+
                 // Si faltan las llaves, avisamos por consola pero seguimos
                 if (!serviceId || !templateId || !publicKey) {
                     console.warn('⚠️ Faltan variables de entorno de EmailJS. El mensaje se guardó en la DB pero no se envió el mail.');
+                    dispatch(addToast({ id: Date.now(), msg: 'Mensaje guardado, pero falló el envío de correo (Faltan llaves).', type: 'warning' }));
                 } else {
-                    await emailjs.send(
+                    const result = await emailjs.send(
                         serviceId,
                         templateId,
                         {
                             from_name: values.name,
-                            from_email: values.email,
+                            reply_to: values.email, // Usamos reply_to que es estandar en EmailJS
                             subject: values.subject,
                             message: values.message,
                         },
                         publicKey
                     );
+                    console.log('EmailJS SUCCESS!', result.status, result.text);
                 }
 
                 dispatch(addToast({ id: Date.now(), msg: '¡Mensaje enviado con éxito!', type: 'success' }));
